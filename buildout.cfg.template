@@ -1,0 +1,54 @@
+[buildout]
+parts = openerp
+
+versions = versions
+find-links = http://download.gna.org/pychart/
+
+[openerp]
+recipe = anybox.recipe.openerp:server
+
+#
+# odoo version selection
+#
+# Heavyweight 
+#version = git http://github.com/odoo/odoo.git odoo 8.0
+# Not yet ! (bug in recipe)
+#version = nightly 8.0 latest
+#
+#version = url http://nightly.openerp.com/8.0/nightly/src/odoo_8.0-20141128-010203.tar.gz
+version = url http://nightly.odoo.com/8.0/nightly/src/odoo_8.0.latest.tar.gz
+
+addons = 	local ./project_addons/
+# Examples
+#			 git git@bitbucket.org:cmorisse/inouk_openerp_data_migration_toolkit.git parts/inouk_openerp_data_migration_toolkit master
+#            git https://github.com/OCA/connector.git parts/oca_connector 8.0
+
+eggs = PyPDF
+
+#
+#   Configuration de gunicorn
+#   =========================
+#
+# 	Exemple:
+gunicorn = direct
+gunicorn.workers = 2
+gunicorn.timeout = 240
+gunicorn.max_requests = 2000
+gunicorn.virtual_memory_limit = 4500000000
+gunicorn.virtual_memory_reset = 4000000000
+
+
+[versions]
+lxml = 2.3.3
+docutils = 0.9
+pyparsing = 1.5.7
+Werkzeug = 0.8.3
+reportlab = 2.7
+pytz = 2014.2
+pyPdf = 1.13
+zc.recipe.egg = 2.0.1
+gunicorn = 18.0
+pydot = 1.0.2
+anybox.recipe.odoo = 1.9.1
+Pillow = 2.7.0
+pychart = 1.39
