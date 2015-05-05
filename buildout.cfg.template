@@ -1,8 +1,9 @@
 [buildout]
-parts = openerp
+parts = openerp supervisor
 
 versions = versions
 find-links = http://download.gna.org/pychart/
+			http://github.com/collective/collective.recipe.supervisor/tarball/master#egg=collective.recipe.supervisor-0.20.dev0
 
 [openerp]
 recipe = anybox.recipe.openerp:server
@@ -60,3 +61,38 @@ pydot = 1.0.2
 anybox.recipe.odoo = 1.9.1
 Pillow = 2.7.0
 pychart = 1.39
+collective.recipe.supervisor = 0.20.dev0
+
+
+[supervisor]
+recipe = collective.recipe.supervisor
+#
+# We only want to generate the programs section so that we can symlink generated file
+# to /etc/supervisor/conf.d/
+sections = services
+
+#
+# Following options are ignored due to sections settings above
+#http-socket = unix
+#file = ${buildout:directory}/var/supervisord.sock
+# port = 127.0.0.1:9001
+#supervisord-conf = ${buildout:directory}/etc/supervisord.conf
+#logfile = ${buildout:directory}/var/log/supervisord.log
+#pidfile = ${buildout:directory}/var/supervisord.pid
+#loglevel = info
+
+#
+# We want all logs in appserver directory
+logfile_openerp = ${buildout:directory}/var/log/odoo-stdout.log
+
+# User owner of preocesses (supervisor default is to run as root which is impossible for odoo)
+process_owner_user = admv8
+
+# number of workers for multi process programs
+openerp_workers = 2
+
+# Note: Last one is for
+programs =
+    10 v8_odoo_mono (autostart=false) "${buildout:directory}/bin/start_openerp" [ --logfile "${:logfile_openerp}" --workers=0 ] ${buildout:directory} true ${:process_owner_user}
+    10 v8_odoo_multi "${buildout:directory}/bin/start_openerp" [ --logfile "${:logfile_openerp}" --workers=${:openerp_workers}] ${buildout:directory} true ${:process_owner_user}
+   
