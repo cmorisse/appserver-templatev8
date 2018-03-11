@@ -27,7 +27,6 @@ function install_openerp {
     wget https://raw.github.com/buildout/buildout/master/bootstrap/bootstrap.py
     virtualenv py27
     py27/bin/python bootstrap.py
-    py27/bin/pip install $PYPI_INDEX --allow-all-external --allow-unverified bzr bzr==2.6.0
     bin/buildout install
     echo
     echo "Your commands are now available in ./bin"

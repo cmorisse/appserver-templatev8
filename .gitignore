@@ -6,6 +6,8 @@
 bin/
 buildout.cfg
 develop-eggs/
+develop-src/
+bootstrap.py
 downloads/
 eggs/
 etc/

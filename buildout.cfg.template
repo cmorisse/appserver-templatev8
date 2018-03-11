@@ -1,12 +1,18 @@
 [buildout]
 parts = openerp supervisor
-
 versions = versions
-find-links = http://download.gna.org/pychart/
-			http://github.com/collective/collective.recipe.supervisor/tarball/master#egg=collective.recipe.supervisor-0.20.dev0
+#index = http://openerp.inouk.fr/simple/
+find-links = ./sources/eggs/PyChart-1.39.tar.gz
+
+extensions = gp.vcsdevelop
+develop-dir = ./develop-src
+vcs-extend-develop = git+https://github.com/anybox/anybox.recipe.odoo.git#egg=a.r.odoo
+vcs-update = True
+
 
 [openerp]
-recipe = anybox.recipe.openerp:server
+interpreter = erpython
+recipe = anybox.recipe.odoo:server
 
 #
 # odoo version selection
@@ -32,7 +38,7 @@ eggs = PyPDF
 # Since v8 most data (eg. ir_attachments) are stored on the file system in a 
 #  directory identified by the data-dir parameter. We set it to an odoo8_data_dir
 # folder at the project root directory.
-options.data_dir = ../../odoo8_data_dir
+#options.data_dir = ../../odoo8_data_dir
 
 #
 #   Configuration de gunicorn
@@ -61,7 +67,7 @@ pydot = 1.0.2
 anybox.recipe.odoo = 1.9.1
 Pillow = 2.7.0
 pychart = 1.39
-collective.recipe.supervisor = 0.20.dev0
+collective.recipe.supervisor = 0.20
 
 
 [supervisor]
