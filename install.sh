@@ -78,7 +78,7 @@ COMMAND=${@:$OPTIND:1}
 
 echo
 echo "install.sh - Inouk OpenERP Buildout Installer"
-echo "(c) 2013, 2014, 2015 @cmorisse"
+echo "(c) 2013-2018 @cmorisse"
 
 if [[ $COMMAND == "help"  ||  $HELP == 1 ]]; then
     echo "Available commands:"
